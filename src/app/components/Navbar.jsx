@@ -48,7 +48,8 @@ const Navbar = () => {
               alt='Travel Agency Logo'
               width={150}
               height={150}
-              className='cursor-pointer'
+              priority
+              className='cursor-pointer logo-img'
             />
           </Link>
         </div>

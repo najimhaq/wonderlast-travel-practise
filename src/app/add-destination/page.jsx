@@ -12,6 +12,7 @@ import {
   TextArea,
   TextField,
 } from '@heroui/react';
+import { redirect } from 'next/navigation';
 import { toast } from 'react-toastify';
 
 const inputClass =
@@ -34,6 +35,7 @@ const AddDestinationPage = () => {
     });
     const data = await response.json();
     toast.success('Destination added successfully!');
+    redirect('/destinations');
   };
 
   return (

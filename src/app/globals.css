@@ -1,3 +1,8 @@
 @import 'tailwindcss';
 @import '@heroui/styles';
 @import 'daisyui/daisyui.css';
+
+.logo-img {
+  width: 100%;
+  height: auto; /* Maintains aspect ratio */
+}

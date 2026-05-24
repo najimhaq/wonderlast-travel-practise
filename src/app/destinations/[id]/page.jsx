@@ -1,6 +1,10 @@
+import { Button } from '@heroui/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { FaArrowLeft, FaTrashAlt } from 'react-icons/fa';
+import { EditModal } from '../../components/EditModal';
+import { DeleteDestination } from '../../components/DeleteDestination';
 
 async function getDestination(id) {
   try {
@@ -13,9 +17,7 @@ async function getDestination(id) {
     }
 
     const data = await res.json();
-
-    return data.data || null;
-
+    return data?.data || data || null;
   } catch (error) {
     console.error(error);
     return null;
@@ -43,13 +45,31 @@ export default async function DestinationPageDetails({ params }) {
 
   return (
     <div className='mx-auto max-w-6xl px-4 py-10 md:px-6'>
+      {/* Destination Details Header */}
+      <div className='mb-8 flex flex-col gap-4 border-b border-gray-200 pb-6 sm:flex-row sm:items-center sm:justify-between'>
+        <Link
+          href='/destinations'
+          className='inline-flex items-center gap-2 text-sm font-medium text-gray-500 transition hover:text-cyan-600'
+        >
+          <FaArrowLeft className='text-sm' />
+          <span>Back To Destinations</span>
+        </Link>
+        {/* Edit Modal and Delete Buttons */}
+        <div className='flex items-center gap-3'>
+          <EditModal destination={destination} />
+          <DeleteDestination destination={destination} />
+        </div>
+      </div>
+
       <div className='grid grid-cols-1 gap-10 lg:grid-cols-2'>
-        <div className='relative h-[300px] overflow-hidden rounded-2xl md:h-[450px]'>
+        <div className='relative h-75 overflow-hidden rounded-2xl md:h-112.5'>
           <Image
             src={imageUrl}
             alt={destinationName}
             fill
+            sizes='(max-width: 768px) 100vw, 50vw'
             className='object-cover'
+            priority
           />
         </div>
 
@@ -98,22 +118,4 @@ export default async function DestinationPageDetails({ params }) {
       </div>
     </div>
   );
-}
-
-// generateStaticParams - এটাও ঠিক করতে হবে
-export async function generateStaticParams() {
-  try {
-    const res = await fetch('http://localhost:5050/destinations');
-    const data = await res.json();
-
-    // আপনার API যদি রিটার্ন করে: { success: true, data: [...] }
-    const destinations = data.data || data;
-
-    return destinations.map((destination) => ({
-      id: destination._id.toString(),
-    }));
-  } catch (error) {
-    console.error('Error in generateStaticParams:', error);
-    return []; // error হলে খালি array রিটার্ন করুন
-  }
 }

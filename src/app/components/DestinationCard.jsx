@@ -21,6 +21,7 @@ const DestinationCard = ({ destination }) => {
           src={imageUrl}
           alt={destinationName}
           fill
+          sizes='(max-width: 768px) 100vw, 50vw'
           className='object-cover'
         />
       </div>

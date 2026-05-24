@@ -1,4 +1,4 @@
-import DestinationCard from "../components/DestinationCard";
+import DestinationCard from '../components/DestinationCard';
 
 const Destinations = async () => {
   const res = await fetch('http://localhost:5050/destination', {
@@ -11,13 +11,7 @@ const Destinations = async () => {
 
   const result = await res.json();
 
-  const destinations = Array.isArray(result)
-    ? result
-    : Array.isArray(result?.data)
-      ? result.data
-      : Array.isArray(result?.destinations)
-        ? result.destinations
-        : [];
+  const destinations = result?.data || result?.destinations || result || [];
 
   return (
     <div>
