@@ -5,7 +5,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { authClient } from '@/src/app/lib/auth-client';
-import { FaEye, FaEyeSlash, FaGoogle, FaGithub } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaGithub } from 'react-icons/fa';
+import Link from 'next/link';
+import { FcGoogle } from 'react-icons/fc';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -14,18 +16,25 @@ export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
+
+  const handleSocialLogin = async (provider) => {
+    try {
+      const result = await authClient.signIn.social({
+        provider: provider,
+        callbackURL: '/my-profile',
+      });
+      console.log(`${provider} login result:`, result);
+    } catch (error) {
+      console.error(`${provider} login error:`, error);
+      toast.error(`Failed to login with ${provider}`);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     const formData = new FormData(e.currentTarget);
-    // const data = {
-    //   fullName: formData.get('fullName'),
-    //   email: formData.get('email'),
-    //   password: formData.get('password'),
-    //   confirmPassword: formData.get('confirmPassword'),
-    //   imageUrl: formData.get('imageUrl'),
-    // };
     const data = Object.fromEntries(formData.entries());
 
     // Validation
@@ -89,7 +98,7 @@ export default function SignupPage() {
               type='text'
               name='fullName'
               placeholder='Full Name'
-              className='w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-transparent'
+              className='w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none'
             />
             {errors.fullName && (
               <p className='text-red-500 text-sm mt-1'>{errors.fullName}</p>
@@ -101,7 +110,7 @@ export default function SignupPage() {
               type='email'
               name='email'
               placeholder='Email Address'
-              className='w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-transparent'
+              className='w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none'
             />
             {errors.email && (
               <p className='text-red-500 text-sm mt-1'>{errors.email}</p>
@@ -113,7 +122,7 @@ export default function SignupPage() {
               type='url'
               name='imageUrl'
               placeholder='Profile Image URL (optional)'
-              className='w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-transparent'
+              className='w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none'
             />
           </div>
 
@@ -122,12 +131,12 @@ export default function SignupPage() {
               type={showPassword ? 'text' : 'password'}
               name='password'
               placeholder='Password'
-              className='w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-transparent pr-10'
+              className='w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-transparent pr-10 outline-none'
             />
             <button
               type='button'
               onClick={() => setShowPassword(!showPassword)}
-              className='absolute right-3 top-2.5 text-gray-500'
+              className='absolute right-3 top-2.5 text-gray-500 hover:text-cyan-600'
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
@@ -141,12 +150,12 @@ export default function SignupPage() {
               type={showConfirm ? 'text' : 'password'}
               name='confirmPassword'
               placeholder='Confirm Password'
-              className='w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-transparent pr-10'
+              className='w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-transparent pr-10 outline-none'
             />
             <button
               type='button'
               onClick={() => setShowConfirm(!showConfirm)}
-              className='absolute right-3 top-2.5 text-gray-500'
+              className='absolute right-3 top-2.5 text-gray-500 hover:text-cyan-600'
             >
               {showConfirm ? <FaEyeSlash /> : <FaEye />}
             </button>
@@ -160,7 +169,7 @@ export default function SignupPage() {
           <button
             type='submit'
             disabled={isLoading}
-            className='w-full bg-cyan-600 text-white py-2 rounded-lg hover:bg-cyan-700 transition disabled:opacity-50'
+            className='w-full bg-cyan-600 text-white py-2 rounded-lg hover:bg-cyan-700 transition disabled:opacity-50 disabled:cursor-not-allowed'
           >
             {isLoading ? 'Creating Account...' : 'Sign Up'}
           </button>
@@ -179,20 +188,28 @@ export default function SignupPage() {
           </div>
 
           <div className='mt-6 grid grid-cols-2 gap-3'>
-            <button className='flex items-center justify-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50'>
-              <FaGoogle /> Google
+            <button
+              type='button'
+              onClick={() => handleSocialLogin('google')}
+              className='flex items-center justify-center gap-2 px-4 py-2 border rounded-lg cursor-pointer hover:bg-gray-50 transition'
+            >
+              <FcGoogle className='size-5' /> Google
             </button>
-            <button className='flex items-center justify-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50'>
-              <FaGithub /> GitHub
+            <button
+              type='button'
+              onClick={() => handleSocialLogin('github')}
+              className='flex items-center justify-center gap-2 px-4 py-2 border rounded-lg cursor-pointer hover:bg-gray-50 transition'
+            >
+              <FaGithub className='size-5' /> GitHub
             </button>
           </div>
         </div>
 
         <p className='text-center text-sm text-gray-600 mt-6'>
           Already have an account?{' '}
-          <a href='/login' className='text-cyan-600 hover:underline'>
+          <Link href='/login' className='text-cyan-600 hover:underline'>
             Sign in
-          </a>
+          </Link>
         </p>
       </div>
     </div>
