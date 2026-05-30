@@ -28,25 +28,39 @@ const BookingCard = ({ destination }) => {
 
     setIsLoading(true);
 
-    const bookingData = {
-      userId: user?.id,
-      userName: user?.name,
-      userEmail: user?.email,
-      destinationId: _id,
-      destinationName,
-      country,
-      imageUrl,
-      price,
-      departureDate: selectedDate
-        ? new Date(selectedDate).toISOString()
-        : new Date(departureDate).toISOString(),
-    };
-
     try {
+      // Token
+      const { data: tokenData } = await authClient.token();
+      const token = tokenData?.token;
+      console.log('token:', token);
+
+      if (!token) {
+        toast.error('Session expired, please login again');
+        router.push('/login');
+        return;
+      }
+
+      // Booking data prepare
+      const bookingData = {
+        userId: user?.id,
+        userName: user?.name,
+        userEmail: user?.email,
+        destinationId: _id,
+        destinationName,
+        country,
+        imageUrl,
+        price,
+        departureDate: selectedDate
+          ? new Date(selectedDate).toISOString()
+          : new Date(departureDate).toISOString(),
+      };
+
+      // API call
       const res = await fetch('http://localhost:5050/booking', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(bookingData),
       });
@@ -55,7 +69,7 @@ const BookingCard = ({ destination }) => {
 
       if (res.ok) {
         toast.success('Booking successful!');
-        router.push(`/my-bookings`);
+        router.push('/my-bookings');
       } else {
         toast.error(data.message || 'Booking failed');
       }
