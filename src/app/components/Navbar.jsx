@@ -19,7 +19,6 @@ const Navbar = () => {
   const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
 
-  console.log('User data:', user);
 
   const handleSignOut = async () => {
     try {
@@ -49,7 +48,7 @@ const Navbar = () => {
       : 'text-gray-700 hover:text-cyan-600';
 
   return (
-    <nav className='bg-white shadow-md fixed top-0 left-0 right-0 z-50'>
+    <nav className='bg-white shadow-md sticky top-0 left-0 right-0 z-50'>
       <div className='max-w-7xl mx-auto flex items-center justify-between px-6 md:px-8 py-6'>
         {/* Left Links */}
         <ul className='hidden md:flex gap-6 font-medium'>
@@ -69,6 +68,11 @@ const Navbar = () => {
               className={linkClasses('/add-destination')}
             >
               Add Destination
+            </Link>
+          </li>
+          <li>
+            <Link href='/my-bookings' className={linkClasses('/my-bookings')}>
+              My Bookings
             </Link>
           </li>
         </ul>
@@ -162,6 +166,13 @@ const Navbar = () => {
             className={linkClasses('/add-destination')}
           >
             Add Destination
+          </Link>
+          <Link
+            href='/my-bookings'
+            onClick={() => setIsOpen(false)}
+            className={linkClasses('/my-bookings')}
+          >
+            My Bookings
           </Link>
           <Link
             href='/profile'

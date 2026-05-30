@@ -1,5 +1,6 @@
 import './globals.css';
 import { Josefin_Sans } from 'next/font/google';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/Navbar';
