@@ -6,11 +6,16 @@ import { RiMapPin5Line } from 'react-icons/ri';
 import { EditModal } from '../../components/EditModal';
 import { DeleteDestination } from '../../components/DeleteDestination';
 import BookingCard from '../../components/BookingCard';
+import { auth } from '../../lib/auth';
+import { headers } from 'next/headers';
 
-async function getDestination(id) {
+async function getDestination(id, token) {
   try {
     const res = await fetch(`http://localhost:5050/destination/${id}`, {
       cache: 'no-store',
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
     });
 
     if (!res.ok) {
@@ -27,7 +32,11 @@ async function getDestination(id) {
 
 export default async function DestinationPageDetails({ params }) {
   const { id } = await params;
-  const destination = await getDestination(id);
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
+  // console.log(token);
+  const destination = await getDestination(id, token);
 
   if (!destination) {
     notFound();

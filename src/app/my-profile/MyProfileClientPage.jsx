@@ -43,7 +43,7 @@ const MyProfileClientPage = async () => {
   return (
     <div className='min-h-screen bg-gray-50'>
       {/* Cover Banner */}
-      <div className='relative h-48 w-full overflow-hidden bg-gradient-to-r from-cyan-500 via-cyan-400 to-teal-400 md:h-64'>
+      <div className='relative h-48 w-full overflow-hidden bg-linear-to-r from-cyan-500 via-cyan-400 to-teal-400 md:h-64'>
         <div
           className='absolute inset-0 '
           style={{
@@ -66,7 +66,7 @@ const MyProfileClientPage = async () => {
                   className='object-cover'
                 />
               ) : (
-                <div className='flex h-full w-full items-center justify-center bg-gradient-to-br from-cyan-400 to-teal-500 text-4xl font-bold text-white'>
+                <div className='flex h-full w-full items-center justify-center bg-linear-to-br from-cyan-400 to-teal-500 text-4xl font-bold text-white'>
                   {initials}
                 </div>
               )}
