@@ -14,7 +14,7 @@ const MyBookingPage = async () => {
 
   try {
     const res = await fetch(
-      `http://localhost:5050/booking?userId=${user?.id}`,
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/booking?userId=${user?.id}`,
       { cache: 'no-store' }
     );
 
@@ -96,10 +96,7 @@ const MyBookingPage = async () => {
                 </div>
 
                 {/* Action Buttons */}
-                <BookingActions
-                  bookingId={booking._id.toString()}
-                 
-                />
+                <BookingActions bookingId={booking._id.toString()} />
               </div>
             </div>
           ))}

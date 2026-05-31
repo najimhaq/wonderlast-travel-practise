@@ -15,14 +15,14 @@ const DestinationCard = ({ destination }) => {
   } = destination;
 
   return (
-    <div className='overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg'>
+    <div className='overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition cursor-pointer hover:-translate-y-1 hover:shadow-lg'>
       <div className='relative h-56 w-full'>
         <Image
           src={imageUrl}
           alt={destinationName}
           fill
           sizes='(max-width: 768px) 100vw, 50vw'
-          className='object-cover'
+          className='object-cover '
         />
       </div>
 

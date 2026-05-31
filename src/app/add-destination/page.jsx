@@ -26,13 +26,16 @@ const AddDestinationPage = () => {
     const destination = Object.fromEntries(formData.entries());
     console.log(destination);
 
-    const response = await fetch('http://localhost:5050/destination', {
-      method: 'post',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify(destination),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/destination`,
+      {
+        method: 'post',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(destination),
+      }
+    );
     const data = await response.json();
     toast.success('Destination added successfully!');
     redirect('/destinations');

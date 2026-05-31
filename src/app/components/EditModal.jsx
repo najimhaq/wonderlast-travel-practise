@@ -39,13 +39,16 @@ export function EditModal({ destination }) {
     const destination = Object.fromEntries(formData.entries());
     console.log(destination); // এখন সব ডেটা আসবে
 
-    const response = await fetch(`http://localhost:5050/destination/${_id}`, {
-      method: 'PATCH',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify(destination),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/destination/${_id}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(destination),
+      }
+    );
     const data = await response.json();
     console.log(data);
     toast.success('Destination updated successfully!');

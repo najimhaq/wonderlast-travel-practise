@@ -11,9 +11,12 @@ const BookingActions = ({ bookingId }) => {
     // if (!confirm('Are you sure you want to cancel this booking?')) return;
 
     try {
-      const res = await fetch(`http://localhost:5050/booking/${bookingId}`, {
-        method: 'DELETE',
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${bookingId}`,
+        {
+          method: 'DELETE',
+        }
+      );
 
       if (res.ok) {
         toast.success('Booking cancelled successfully');

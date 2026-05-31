@@ -11,12 +11,15 @@ import { headers } from 'next/headers';
 
 async function getDestination(id, token) {
   try {
-    const res = await fetch(`http://localhost:5050/destination/${id}`, {
-      cache: 'no-store',
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/destination/${id}`,
+      {
+        cache: 'no-store',
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (!res.ok) {
       return null;

@@ -5,8 +5,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 async function getBooking(id) {
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL?.replace(/\/+$/, '');
+
   try {
-    const res = await fetch(`http://localhost:5050/booking/${id}`, {
+    const res = await fetch(`${baseUrl}/booking/${id}`, {
       cache: 'no-store',
     });
     if (!res.ok) return null;
