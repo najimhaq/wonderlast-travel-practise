@@ -1,3 +1,4 @@
+// frontend/app/my-profile/page.jsx
 import { headers } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';

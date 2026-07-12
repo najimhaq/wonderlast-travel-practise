@@ -5,13 +5,10 @@ import { headers } from 'next/headers';
 import { FaArrowRightLong } from 'react-icons/fa6';
 import { RiMapPin5Line } from 'react-icons/ri';
 
-async function getFeatured(token) {
+async function getFeatured() {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL?.replace(/\/+$/, '');
-    const res = await fetch(`${baseUrl}/featured`, {
-      cache: 'no-store',
-      headers: token ? { authorization: `Bearer ${token}` } : {},
-    });
+    const res = await fetch(`${baseUrl}/featured`, { cache: 'no-store' });
 
     if (!res.ok) {
       console.log('Featured fetch failed:', res.status, res.statusText);
@@ -27,11 +24,7 @@ async function getFeatured(token) {
 }
 
 export default async function FeaturedPage() {
-  const { token } = await auth.api.getToken({
-    headers: await headers(),
-  });
-
-  const featured = await getFeatured(token);
+  const featured = await getFeatured();
 
   return (
     <section className='mx-auto max-w-7xl px-4 py-12 md:px-6'>
